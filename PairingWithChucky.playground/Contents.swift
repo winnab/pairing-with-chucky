@@ -63,23 +63,19 @@ indirect enum List {
     }
   }
   
-  func sum(accumulator: Int = 0) -> Int {
+  func sum() -> Int {
     switch self {
     case let .Cons(x, xs):
         return x + xs.sum()
     case .Empty:
-      return accumulator
+      return 0
     }
   }
   
   func doubleEachX() -> List {
     switch self {
     case let .Cons(x, xs):
-      if case .Empty = xs {
-        return List.Cons(x: (x * 2), xs: xs)
-      }
       return List.Cons(x: (x * 2), xs: xs.doubleEachX())
-      
     case .Empty:
       return List.Empty
     }
