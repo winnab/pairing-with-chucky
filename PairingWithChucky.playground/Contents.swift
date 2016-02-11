@@ -95,3 +95,54 @@ let sumOfList = l1.sum() // 14
 let doubledList = l1.doubleEachX()
 
 
+// Cons(1, List.Cons(4, List.Cons(9, List.Empty)))
+
+// sum( Cons(1, List.Cons(4, List.Cons(9, List.Empty))) ) first time
+//
+// -> 1 + sum( List.Cons(4, List.Cons(9, List.Empty)) )
+// -> 1 + 4 + sum ( List.Cons(9, List.Empty) )
+// -> 1 + 4 + 9 + sum( List.Empty )
+// -> 1 + 4 + 9 + 0
+// -> 15!
+
+// for (i = 0; i < list.length; i++) {}
+//
+// f() -> 1 + g()
+// g() -> 4 + h()
+// h() -> 9 + i()
+// i() -> throw
+//
+//
+// h()
+// g()
+// f()
+// stack
+
+
+
+
+
+
+
+func fooBar() -> (Int, Int) {
+  let x = 5
+  let (y, z) = fooBar()
+  let (.Cons(w, xs)) = .Cons(5, .Empty)
+  return (x, x)
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
