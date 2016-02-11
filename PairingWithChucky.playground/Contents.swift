@@ -41,9 +41,11 @@ le -> le le
 //List -> cons(x, List)
 //2 :: (5 :: (7 :: []))
 
-indirect enum List {
+indirect enum List: SequenceType {
   case Empty
   case Cons(x: Int, xs: List)
+  
+
   
   
   func toString() -> String {
