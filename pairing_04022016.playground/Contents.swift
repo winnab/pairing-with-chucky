@@ -122,10 +122,30 @@ indirect enum List<T>: SequenceType {
       }
     }
   }
+  
+  
   // reduce(T -> T) -> T
-  // reduce
+  // Int, List<T>
+  func reduceRec<T2>(fun: (T2, T, Int, List<T>) -> T2, currentValue: T2) -> T2 {
+    return reduceRecHelper(fun, currentValue: currentValue, currentIndex: 0, list: self)
+  }
+  
+  private func reduceRecHelper<T2>(fun: (T2, T, Int, List<T>) -> T2, currentValue: T2, currentIndex: Int, list: List<T>) -> T2 {
+    switch self {
+    case .Empty:
+      return currentValue
+    case let .Cons(x, xs):
+      let newValue = fun(currentValue, x, currentIndex, list)
+      return xs.reduceRecHelper(fun, currentValue: newValue, currentIndex: currentIndex + 1, list: list)
+    }
+  }
+  
+  // func reduceRecHelper
+  
   // fold (takes starter elem) fold(T', T -> T') -> T'
   // flatmap / compact
+  // concatenating two lists,
+  // zipping them (zip([a,b,c], [1,2,3]) === [a,1,b,2,c,3]
   
   
   // List<Int?>
@@ -185,5 +205,18 @@ let l3 = l2.reverse()
 print("in reverse order: \(l3.toString())")
 
 print("filter only evens: \(l3.filter(isEven).toString())")
+
+/*
+  previousValue
+  currentValue
+  currentIndex
+  array
+*/
+
+func sum(accumulator: Int, currentValue: Int, currentIndex: Int, collection: List<Int>) -> Int {
+  return accumulator + currentValue
+}
+
+let reduced = l2.reduceRec(sum, currentValue: 0)
 
 
