@@ -35,6 +35,15 @@ public class Main {
         tree.add(5);
         tree.add(7);
 
+        System.out.println(tree);
+        System.out.println(tree.exists(4));
+        System.out.println(tree.exists(2));
+        System.out.println(tree.exists(1));
+        System.out.println(tree.exists(3));
+        System.out.println(tree.exists(5));
+        System.out.println(tree.exists(7));
+        System.out.println(tree.exists(9));
+
 
 
         /*
