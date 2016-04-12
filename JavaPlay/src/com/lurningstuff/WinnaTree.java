@@ -112,5 +112,78 @@ public class WinnaTree<T extends Comparable<T>> {
         return retval;
     }
 
+    /*
+        API
+        - list of Points
+        - x, y integer pairs
+        - indefinite number of pairs
+        - with length (integer)
+
+        Output
+        find all the squares that have side length 6
+        square defined by its four corners
+
+        (
+         (0, 0),
+         (0, 5),
+         (5, 0),
+         (5, 5),
+        )
+
+        list findSquares(listOfPoints, length)
+          squares = [];
+
+          l = length
+
+          valid square
+          - has 4 points
+          - distance between points is equal on all sides
+          - distance is equal to l
+
+          combinations = getCombinations(listOfPoints, 4)
+          for each combo in combinations
+            if isValidSquare(combo, length)
+              squares.push(combo)
+
+          return squares
+
+
+        list of squares getCombinations(list<T>, size)
+          combinations = [];
+
+          if size < 0
+            throw("can't get combinations for a negative size")
+
+          if size == 0
+            return [[]]
+
+          for each element in list
+            smallerCombinations = getCombinations(list - element, size - 1)
+              for each list in smallerCombinations
+                list.push(element)
+            combinations = combinations.concat(smallerCombination)
+
+          return combinations
+
+        boolean isValidSquare(listOfFourPoints, length)
+          lexicographic sort like the dictionary
+          sort by x, y
+
+          return false if
+              same x coordinate on left
+                   absolute value of x1 - x2 != 0
+              same x coordinate on right
+                   absolute value of x3 - x4 != 0
+
+          return false if
+              same y coordinate on top
+                   absolute value of y1 - y2 != length
+              same y coordinate on bottom
+                   absolute value of y3 - y4 != length
+
+          return true
+
+       */
+
 
 }
