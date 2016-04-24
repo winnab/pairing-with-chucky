@@ -1,0 +1,23 @@
+set datafile separator ","
+
+set xlabel "Time (ms)"
+show xlabel
+set ylabel "Frequency"
+show ylabel
+
+# based on ChrisW's post from http://stackoverflow.com/questions/2471884/histogram-using-gnuplot
+Min = -1 # where binning starts
+Max = 1 # where binning ends
+# n = 2 # the number of bins
+# width = (Max-Min)/n # binwidth; evaluates to 1.0
+binwidth = 0.005
+bin(x,width) = width*(floor((x-Min)/width)+0.5) + Min
+
+plot 'variance.csv' using (bin(($1-38.06382199) / 38.06382199,binwidth)):(1.0) smooth freq with boxes
+
+# set key autotitle columnheader
+# set style data lines
+
+# plot for [i=2:7] 'data.csv' using 1:i title column with linespoints
+
+pause -1

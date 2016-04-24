@@ -1,0 +1,13 @@
+set datafile separator ","
+
+set xlabel "n"
+show xlabel
+set ylabel "Time (ms)"
+show ylabel
+
+# set key autotitle columnheader
+# set style data lines
+
+plot for [i=2:7] 'data.csv' using 1:i title column with linespoints
+
+pause -1
