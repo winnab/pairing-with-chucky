@@ -1,11 +1,85 @@
+var Combinator = require('./combinator.js')
+
 var exports = module.exports = {};
 
-exports.getSquares = function(points) {
+
+exports.getSquares = function(points, sideLength) {
   if (points.length < 4) { return [] };
-  return points;
+
+  // console.log('points', points)
+
+  var combinations = Combinator.getCombinations(points, 4)
+
+  // console.log('combinations', combinations)
+
+  return combinations.filter(function(combo) {
+    return isValidSquare(combo, sideLength)
+  })
+}
+
+  // look for square
+  // pointU-----pointUR
+  //   |          |
+  // point------pointR
+
+function isValidSquare(listOfFourPoints, sideLength) {
+  var sorted = sortPoints(listOfFourPoints)
+
+  // p1 -- p3
+  // |      |
+  // p0 -- p2
+
+  var x0 =  sorted[0][0]
+  var x1 =  sorted[1][0]
+  var x2 =  sorted[2][0]
+  var x3 =  sorted[3][0]
+
+  // x coordinates should be the same
+  if ( x0 != x1 ) { return false }
+  if ( x2 != x3 ) { return false }
+
+  var y0 =  sorted[0][1]
+  var y1 =  sorted[1][1]
+  var y2 =  sorted[2][1]
+  var y3 =  sorted[3][1]
+
+  if ( y1 != y3 ) { return false }
+  if ( y0 != y2 ) { return false }
+
+  return true
 }
 
 
+
+function sortPoints(points) {
+  return points.sort(function(a, b) {
+    var ax = a[0]
+    var ay = a[1]
+
+    var bx = b[0]
+    var by = b[1]
+
+    if (ax < bx) {
+      return -1
+    }
+
+    if (ax > bx) {
+      return 1
+    }
+
+    if (ax == bx) {
+      if (ay < by) {
+        return -1
+      }
+
+      if (ay > by) {
+        return 1
+      }
+    }
+
+    return 0;
+  })
+}
 
 
 
@@ -74,21 +148,5 @@ exports.getSquares = function(points) {
 
     return combinations
 
-  boolean isValidSquare(listOfFourPoints, length)
-    lexicographic sort like the dictionary
-    sort by x, y
 
-    return false if
-        same x coordinate on left
-             absolute value of x1 - x2 != 0
-        same x coordinate on right
-             absolute value of x3 - x4 != 0
-
-    return false if
-        same y coordinate on top
-             absolute value of y1 - y2 != length
-        same y coordinate on bottom
-             absolute value of y3 - y4 != length
-
-    return true
 */

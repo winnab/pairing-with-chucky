@@ -8,66 +8,89 @@ describe('getCombinations', function() {
   })
 
   it("throws an error when there aren't enough elements for the given size", function() {
-    expect(function() {
-      return combinator.getCombinations([1], 2)
-    }).toThrow()
+    expect(combinator.getCombinations([1], 2)).toEqual([])
   })
 
   it("given an empty list, it returns a list containing only one empty list", function() {
     expect(combinator.getCombinations([], 0)).toEqual([[]])
   })
 
-  it("given a list of items, it returns all combinations of size", function() {
+  it("given a size of 0, it returns a list containing only one empty list", function() {
+    expect(combinator.getCombinations([1], 0)).toEqual([[]])
+  })
+
+  it("given a list of items and a size of the length of the list, it should return itself", function() {
     var list = [1, 2]
     var expectedCombinations = [
       [1, 2]
     ]
 
     var actualCombinations = combinator.getCombinations(list, 2)
+    expect(compareCombinations(expectedCombinations, actualCombinations)).toBe(true);
+  })
 
-    expect(actualCombinations.length).toEqual(1);
+  it("given a list of items, it returns all combinations of size", function() {
+    var list = [1, 2, 3]
 
-    var onlyCombination = actualCombinations[0]
+    var expectedCombinations = [
+      [1, 2],
+      [1, 3],
+      [2, 3]
+    ]
 
-    expect(onlyCombination).toContain(1)
-    expect(onlyCombination).toContain(2)
+    var actualCombinations = combinator.getCombinations(list, 2)
 
+    expect(compareCombinations(expectedCombinations, actualCombinations)).toBe(true);
+  })
+
+  it("given a list of items, it returns all combinations of size", function() {
+    var list = [1, 2, 3, 4, 5]
+
+    var expectedCombinations = [
+      [1, 2],
+      [1, 3],
+      [1, 4],
+      [1, 5],
+      [2, 3],
+      [2, 4],
+      [2, 5],
+      [3, 4],
+      [3, 5],
+      [4, 5]
+    ]
+
+    var actualCombinations = combinator.getCombinations(list, 2)
+
+    expect(compareCombinations(expectedCombinations, actualCombinations)).toBe(true);
   })
 
   it("given a list of items, it returns all combinations of size", function() {
     var list = [1, 2, 3, 4]
-    // var actualCombinations = combinator.getCombinations(list, 3)
+    var expectedCombinations = [ [1, 2, 3, 4] ]
 
-    var expectedCombinations = [
-      [1, 2, 3],
-      [1, 2, 4],
-      [1, 3, 4],
-      [2, 3, 4]
-    ]
+    var actualCombinations = combinator.getCombinations(list, 4)
+    expect(compareCombinations(expectedCombinations, actualCombinations)).toBe(true);
+  })
 
-    var actualCombinations = [
-      [1, 2, 4],
-      [1, 3, 4],
-      [1, 3, 5],
-      [2, 3, 4]
-    ]
 
-    expect(expectedCombinations.length).toEqual(actualCombinations.length)
+});
 
-    // TODO custom matcher and use recursion to make it more generic
-
-    var actualContainsAllExpected = expectedCombinations.every(function(expectedElem) {
-      return actualCombinations.some(function(actualElem) {
-        if (actualElem.length != expectedElem.length) {
-          return false;
-        }
-        return expectedElem.every(function(innerExpectedElem){
-          return actualElem.indexOf(innerExpectedElem) > -1
-        }
-        })
+function compareCombinations(expectedCombinations, actualCombinations) {
+  return expectedCombinations.every(function(expectedElem) {
+    var hasAllSameElements = actualCombinations.some(function(actualElem) {
+      if (actualElem.length != expectedElem.length) {
+        return false;
+      }
+      return expectedElem.every(function(innerExpectedElem) {
+        return actualElem.indexOf(innerExpectedElem) > -1
       })
     })
-
-    expect(actualContainsAllExpected).toBe(true)
+    if (!hasAllSameElements) {
+      console.log("actual", actualCombinations)
+      console.log("expected", expectedCombinations)
+      console.log("missing ", expectedElem, ".")
+      return false;
+    }
+    return true;
   })
-});
+}
