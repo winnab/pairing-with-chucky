@@ -1,5 +1,5 @@
 var chucky = require('./chuckyNodeSquares.js');
-// var bh = require('../nodeBench/index.js');
+var bh = require('../bench/index.js');
 var winna = require('../winna/src/squares.js')
 
 var COORD_MIN = -10;
@@ -65,7 +65,7 @@ var functionsAllLengths = [
 ];
 
 function test(functions) {
-	for (var n = 0; n < 500; n++) {
+	for (var n = 0; n < 50; n++) {
 		for (var i = 0; i < 5; i++) {
 			if (testOnce(functions, n)) {
 				return true;
@@ -103,8 +103,8 @@ function testOnce(functions, n) {
 	return false;
 };
 
-test(functionsGivenLength);
+// test(functionsGivenLength);
 
-// bh.bench(functionsGivenLength, 10, 100000);
+bh.bench(functionsGivenLength, 1, 65);
 
 // bh.bench(functionsGivenLength.concat(functionsAllLengths), 10, 100);

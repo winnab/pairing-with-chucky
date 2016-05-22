@@ -16,6 +16,7 @@ exports.getSquares = function(points, sideLength) {
     return isValidSquare(combo, sideLength)
   })
 
+  // should be linear
   return unsortedSquares.map(function(square) {
     // p'3 -- p'2
     // |      |

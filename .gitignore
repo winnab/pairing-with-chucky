@@ -6,6 +6,7 @@ playground.xcworkspace
 *.iml
 *.class
 *.iws
+*.png
 
 .DS_Store
 

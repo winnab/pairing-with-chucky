@@ -10,10 +10,10 @@ function arrayMin(arr) {
 function defaultFor(arg, val) { return typeof arg !== 'undefined' ? arg : val; }
 
 // these should be passed in
-var TIMES_TO_RUN = 1;
+var TIMES_TO_RUN = 5;
 var WARMUP_TIMES = 50;
 var WARMUP_N = 5;
-var N_INCREASE_FACTOR = 2;
+var N_INCREASE_FACTOR = 1.5;
 
 var Stopwatch = require('statman-stopwatch');
 // var Stats = require("stats-lite");
@@ -37,7 +37,7 @@ function benchOne(n, fun, inputFun, times) {
 }
 
 function warmup(functions) {
-	for (var funo of functions) {		
+	for (var funo of functions) {
 		for (var i = 0; i < WARMUP_TIMES; i++) {
 			funo.fun(funo.inputFun(WARMUP_N));
 		}
@@ -104,14 +104,14 @@ exports.bias = function(functions, nMin, nMax) {
 			}
 			times[n].push(t); // this is all really gross
 		}
-		n *= N_INCREASE_FACTOR;		
+		n *= N_INCREASE_FACTOR;
 	}
 
 	// Object.keys(times).forEach(function(n) {
 	// 	var ntimes = times[n];
 	// 	// console.log(n + "," + arrayMin(ntimes) + "," + ntimes.join(","));
 	// 	console.log(
-	// }); 
+	// });
 
 	var ntimes = times[81920];
 	for (var time of ntimes) {

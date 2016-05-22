@@ -1,3 +1,7 @@
+set term png
+set output "./plot.png"
+
+# set terminal x11
 set datafile separator ","
 
 set xlabel "n"
