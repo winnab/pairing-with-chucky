@@ -12,8 +12,20 @@ exports.getSquares = function(points, sideLength) {
 
   // console.log('combinations', combinations)
 
-  return combinations.filter(function(combo) {
+  var unsortedSquares = combinations.filter(function(combo) {
     return isValidSquare(combo, sideLength)
+  })
+
+  return unsortedSquares.map(function(square) {
+    // p'3 -- p'2
+    // |      |
+    // p'0 -- p'1
+    return [
+      square[0], // p'0
+      square[2], // p'1
+      square[3], // p'2
+      square[1]  // p'3
+    ]
   })
 }
 
@@ -34,7 +46,7 @@ function isValidSquare(listOfFourPoints, sideLength) {
   var x2 =  sorted[2][0]
   var x3 =  sorted[3][0]
 
-  // x coordinates should be the same
+  // x coordinates are the same
   if ( x0 != x1 ) { return false }
   if ( x2 != x3 ) { return false }
 
@@ -43,13 +55,17 @@ function isValidSquare(listOfFourPoints, sideLength) {
   var y2 =  sorted[2][1]
   var y3 =  sorted[3][1]
 
+  // y coordinates are the same
   if ( y1 != y3 ) { return false }
   if ( y0 != y2 ) { return false }
 
+  // we have rectangles, now we need we check if they're squares
+  // one side in each direction is the size we're looking for
+  if ( x2 - x0 != sideLength ) { return false }
+  if ( y1 - y0 != sideLength ) { return false }
+
   return true
 }
-
-
 
 function sortPoints(points) {
   return points.sort(function(a, b) {

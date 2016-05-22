@@ -1,5 +1,6 @@
 var chucky = require('./chuckyNodeSquares.js');
-var bh = require('../nodeBench/index.js');
+// var bh = require('../nodeBench/index.js');
+var winna = require('../winna/src/squares.js')
 
 var COORD_MIN = -10;
 var COORD_MAX = 10 + 1;
@@ -48,6 +49,11 @@ var functionsGivenLength = [
 		fun: function(arg) { return chucky.findSquares1(arg, 1); },
 		inputFun: generatePoints,
 	},
+	{
+		name: "winna0",
+		fun: function(arg) { return winna.getSquares(arg, 1); },
+		inputFun: generatePoints,
+	}
 ];
 
 var functionsAllLengths = [
@@ -65,7 +71,7 @@ function test(functions) {
 				return true;
 			}
 		}
-	}	
+	}
 };
 
 function testOnce(functions, n) {
@@ -88,14 +94,17 @@ function testOnce(functions, n) {
 		if (standard.toString() != other.toString()) {
 			console.log("Error: " + functions[0].name + " does not agree with " + functions[i].name);
 			console.log("Example input:\n" + JSON.stringify(test));
+
+			console.log(functions[0].name, '\n:', JSON.stringify(standard), '\n')
+			console.log(functions[i].name, '\n:', JSON.stringify(other))
 			return true;
 		}
 	}
 	return false;
 };
 
-// test(functionsGivenLength);
+test(functionsGivenLength);
 
-bh.bench(functionsGivenLength, 10, 100000);
+// bh.bench(functionsGivenLength, 10, 100000);
 
 // bh.bench(functionsGivenLength.concat(functionsAllLengths), 10, 100);
