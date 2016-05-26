@@ -6,7 +6,56 @@ var exports = module.exports = {};
 exports.getSquares = function(points, sideLength) {
   if (points.length < 4) { return [] };
 
-  // console.log('points', points)
+/*
+
+create an object
+
+x value is the key, array of points where x is the key is the value
+at this point, sort values by y coordinate
+
+  points is a list of n points
+
+  for each point p in points,
+    if !ds[p], ds[p] = {}
+    if !ds[p][p.y], ds[p][p.y] = []
+    ds[p][p.y].push(p)
+    // ds[p][p.y].sort
+
+  pointsByXCoord = {
+    1: {
+      2: [(1, 2)],
+      3: [(1, 3)],
+    },
+    2: {
+      4: [(2, 4)],
+      6: [(2, 6)],
+    }
+    4: {
+      1: [(4, 1)]
+    }
+  }
+
+  needsFurtherChecking = []
+
+  go through pointsByXCoord
+
+  x2 - x1 == sideLength ?
+    yes: push (x1, x2) to needsFurtherChecking
+    no: skip
+
+  for each (x1, x2) in needsFurtherChecking
+    Object.keys( pointsByXCoord[x1] ).forEach( (y) {
+      if pointsByXCoord[x2][y] {
+        you have a possible side
+
+        topYValue = y + sideLength
+        if pointsByXCoord[x1][topYValue] && pointsByXCoord[x2][topYValue] {
+          you have a square
+        }
+      }
+    })
+
+*/
 
   var combinations = Combinator.getCombinations(points, 4)
 
@@ -98,72 +147,3 @@ function sortPoints(points) {
   })
 }
 
-
-
-
-
-  /*
-  Make it work, make it right, make it fast.
-
-  API
-  - Point
-    - array of 2 elements
-    - x, y integer pairs
-  - Square
-    - array of points
-    - defined by its four corners
-    - order: BottomLeft, BottomRight, TopRight, TopLeft
-
-  Input
-  - A list of Points and a length (integer)
-
-  Output
-  - A list of Squares
-*/
-
-/*
-
-  (
-   (0, 0),
-   (0, 5),
-   (5, 0),
-   (5, 5),
-  )
-
-  list findSquares(listOfPoints, length)
-    squares = [];
-
-    l = length
-
-    valid square
-    - has 4 points
-    - distance between points is equal on all sides
-    - distance is equal to l
-
-    combinations = getCombinations(listOfPoints, 4)
-    for each combo in combinations
-      if isValidSquare(combo, length)
-        squares.push(combo)
-
-    return squares
-
-
-  list of squares getCombinations(list<T>, size)
-    combinations = [];
-
-    if size < 0
-      throw("can't get combinations for a negative size")
-
-    if size == 0
-      return [[]]
-
-    for each element in list
-      smallerCombinations = getCombinations(list - element, size - 1)
-        for each list in smallerCombinations
-          list.push(element)
-      combinations = combinations.concat(smallerCombination)
-
-    return combinations
-
-
-*/

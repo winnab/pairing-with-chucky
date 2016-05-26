@@ -1,5 +1,5 @@
 graph: data.csv plot.plg
-	gnuplot plot.plg
+	gnuplot -p plot.plg
 
 
 data.csv: index.js ../chucky/demo.js
