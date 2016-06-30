@@ -4,6 +4,7 @@ var deepEqual = require('deep-equal');
 describe("findSquares", function() {
   it("given fewer than four points, it returns no squares", function () {
     expect(sg.getSquares([[0, 0], [0, 1]])).toEqual([]);
+    expect(sg.getSquaresFaster([[0, 0], [0, 1]])).toEqual([]);
   })
 
   it("given four points that compose a square, it returns the square", function () {
@@ -17,6 +18,7 @@ describe("findSquares", function() {
     var expectedSquares = [points]
 
     expect(sg.getSquares(points, 1)).toEqual(expectedSquares);
+    expect(sg.getSquaresFaster(points, 1)).toEqual(expectedSquares);
   })
 
   it("given more than four including four points that compose a square, it returns the square", function () {
@@ -40,6 +42,7 @@ describe("findSquares", function() {
     ]
 
     expect(sg.getSquares(points, 1)).toEqual([expectedSquares]);
+    expect(sg.getSquaresFaster(points, 1)).toEqual([expectedSquares]);
   })
 
   it("given more than four including eight points that compose two squares, it returns the squares", function () {
@@ -74,6 +77,7 @@ describe("findSquares", function() {
     ]
 
     expect(sg.getSquares(points, 1)).toEqual(expectedSquares);
+    expect(sg.getSquaresFaster(points, 1)).toEqual(expectedSquares);
   })
 
   it("looks for squares of size 1", function() {
@@ -101,6 +105,7 @@ describe("findSquares", function() {
     var expectedSquares = []
 
     expect(sg.getSquares(points, 1)).toEqual(expectedSquares);
+    expect(sg.getSquaresFaster(points, 1)).toEqual(expectedSquares);
   })
 
   it("returns a list of points ordered by: lowerLeft, lowerRight, upperRight, upperLeft", function() {
@@ -115,6 +120,7 @@ describe("findSquares", function() {
       ]
     ]
     expect(sg.getSquares(points, 1)).toEqual(expectedSquares);
+    expect(sg.getSquaresFaster(points, 1)).toEqual(expectedSquares);
   })
 })
 

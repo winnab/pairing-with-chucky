@@ -44,14 +44,19 @@ var functionsGivenLength = [
 		fun: function(arg) { return chucky.findSquares0(arg, 1); },
 		inputFun: generatePoints,
 	},
+	// {
+	// 	name: "chucky1",
+	// 	fun: function(arg) { return chucky.findSquares1(arg, 1); },
+	// 	inputFun: generatePoints,
+	// },
+	// {
+	// 	name: "winna0",
+	// 	fun: function(arg) { return winna.getSquares(arg, 1); },
+	// 	inputFun: generatePoints,
+	// },
 	{
-		name: "chucky1",
-		fun: function(arg) { return chucky.findSquares1(arg, 1); },
-		inputFun: generatePoints,
-	},
-	{
-		name: "winna0",
-		fun: function(arg) { return winna.getSquares(arg, 1); },
+		name: "winna1",
+		fun: function(arg) { return winna.getSquaresFaster(arg, 1); },
 		inputFun: generatePoints,
 	}
 ];
@@ -103,8 +108,7 @@ function testOnce(functions, n) {
 	return false;
 };
 
-// test(functionsGivenLength);
+// testOnce(functionsGivenLength, 60);
 
-bh.bench(functionsGivenLength, 1, 65);
-
+bh.bench(functionsGivenLength, 1, 800000);
 // bh.bench(functionsGivenLength.concat(functionsAllLengths), 10, 100);

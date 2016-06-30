@@ -2,12 +2,68 @@ var Combinator = require('./combinator.js')
 
 var exports = module.exports = {};
 
+exports.getSquaresFaster = function(points, sideLength) {
+  var squares = []
+  var pointsByXCoord = {}
 
-exports.getSquares = function(points, sideLength) {
-  if (points.length < 4) { return [] };
+  points.forEach(function(point) {
+    var x = point[0]
+    var y = point[1]
 
+    if (!pointsByXCoord[x]) {
+      pointsByXCoord[x] = {}
+    }
+
+    if (!pointsByXCoord[x][y]) {
+      pointsByXCoord[x][y] = []
+    }
+
+    pointsByXCoord[x][y].push(point)
+  })
+
+  var needsFurtherChecking = []
+
+  Object.keys(pointsByXCoord).forEach(function(x){
+    x = Number.parseInt(x)
+    var potentialMatch = x + sideLength
+    if(pointsByXCoord[potentialMatch]) {
+      needsFurtherChecking.push([x, potentialMatch])
+    }
+  })
+
+  needsFurtherChecking.forEach(function(pair){
+    var left = pair[0]
+    var right = pair[1]
+    Object.keys(pointsByXCoord[left]).forEach(function(y){
+      y = Number.parseInt(y)
+      if (pointsByXCoord[right][y]) {
+        var topY = y + sideLength
+
+        if (
+          pointsByXCoord[right][topY]
+          && pointsByXCoord[left][topY]
+        ) {
+          // p'3 -- p'2
+          // |      |
+          // p'0 -- p'1
+
+          var square = [
+            [left, y],
+            [right, y],
+            [right, topY],
+            [left, topY]
+          ]
+
+          squares.push(square)
+        }
+      }
+    })
+  })
+
+  return squares
+
+}
 /*
-
 create an object
 
 x value is the key, array of points where x is the key is the value
@@ -16,14 +72,14 @@ at this point, sort values by y coordinate
   points is a list of n points
 
   for each point p in points,
-    if !ds[p], ds[p] = {}
-    if !ds[p][p.y], ds[p][p.y] = []
-    ds[p][p.y].push(p)
-    // ds[p][p.y].sort
+    if !ds[p.x], ds[p.x] = {}
+    if !ds[p.x][p.y], ds[p.x][p.y] = []
+    ds[p.x][p.y].push(p)
+    // ds[p.x][p.y].sort
 
   pointsByXCoord = {
     1: {
-      2: [(1, 2)],
+      2: [(1, 2),(1, 2)],
       3: [(1, 3)],
     },
     2: {
@@ -33,6 +89,22 @@ at this point, sort values by y coordinate
     4: {
       1: [(4, 1)]
     }
+  }
+
+  // 2
+  {
+    2: [],
+    4: [],
+    6: [],
+    9: [],
+    11: []
+  }
+
+  {
+    2: [],
+    11: [],
+    9: [],
+    4: []
   }
 
   needsFurtherChecking = []
@@ -54,8 +126,10 @@ at this point, sort values by y coordinate
         }
       }
     })
-
 */
+
+exports.getSquares = function(points, sideLength) {
+  if (points.length < 4) { return [] };
 
   var combinations = Combinator.getCombinations(points, 4)
 
