@@ -3,11 +3,27 @@
 
 int add(int x, int y);
 
+struct foo {
+  int bar;
+  int baz;
+  char* str;
+};
+
 int main(int intc, char* intv[]) {
   printf("hello world\ngoodbye\n");
   for (int i = 0; i < 10; i++) {
     printf("%d\n", i);
   }
+
+  struct foo x;
+  x.bar + x.baz;
+
+  printf(x.(*str));
+
+  struct foo * xp;
+  xp->bar;
+
+  (*xp).bar
 
   int a = 5;
   int b = 32;
@@ -37,6 +53,7 @@ int main(int intc, char* intv[]) {
   for (int i = 0; i < 3; i++) {
     printf("%d =?= %d\n", arr[i], d_array[i]);
   }
+
 
 
 /*
