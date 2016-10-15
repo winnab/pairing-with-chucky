@@ -3,6 +3,7 @@
 
 void compress_batch_v0(char* batch, int length, FILE* dest);
 void compress_batch_v1(char* batch, int length, FILE* dest);
+void write_encoding(int times_repeated, char previous, FILE* dest);
 
 static const int BATCH_SIZE = 10000;
 
@@ -58,19 +59,31 @@ void compress_batch_v1(char* batch, int length, FILE* dest) {
   for(int i = 1; i < length; i++) {
     char current = batch[i];
     if(previous == current) {
-      times_repeated ++;
+      if (times_repeated == 255) {
+        write_encoding(times_repeated, previous, dest);
+        times_repeated = 1;  
+      } else {
+        times_repeated ++;
+      }
     } else {
-      // printf("%d%c", times_repeated, previous);
-      char *encoded = malloc(BATCH_SIZE * 2 + 1);
-      int num_chars = sprintf(encoded, "%d%c", times_repeated, previous);
-      fwrite(encoded, sizeof(encoded[0]), num_chars, dest);
+      write_encoding(times_repeated, previous, dest);
       times_repeated = 1;
     }
 
     previous = current;
   }
+  write_encoding(times_repeated, previous, dest);
+}
+
+void write_encoding(int times_repeated, char previous, FILE* dest) {
   // printf("%d%c", times_repeated, previous);
   char *encoded = malloc(BATCH_SIZE * 2 + 1);
-  int num_chars = sprintf(encoded, "%d%c", times_repeated, previous);
-  fwrite(encoded, sizeof(encoded[0]), num_chars, dest);
+
+  // if (times_repeated == 1) {
+  //   int encoded_length = sprintf(encoded, "%c", previous);
+  //   fwrite(encoded, sizeof(encoded[0]), encoded_length, dest);
+  // } else {
+    int encoded_length = sprintf(encoded, "%c%c", times_repeated, previous);
+    fwrite(encoded, sizeof(encoded[0]), encoded_length, dest);
+  //}
 }
