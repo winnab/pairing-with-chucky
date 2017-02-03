@@ -1,0 +1,22 @@
+select 
+	*
+from artist
+inner join album on album.ArtistId = artist.ArtistId
+
+a|1b|c
+/*
+
+albumartistcache[artistid] = albums
+
+foreach artistkey, artist in artists {
+	foreach albumkey, album in albums {
+    	if artistkey == album.artistid {
+        	if (album.title = artist.name) {
+            	// keep it
+            }
+    	}
+    }
+}
+	
+
+*/

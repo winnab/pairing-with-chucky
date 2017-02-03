@@ -39,7 +39,7 @@ func main() {
 	c := make(chan float64)
     _ = c
 
-	// input := make(map[int]int, 0)//[ARRAY_SIZE]int{}
+	// input := make(hash-table[int]int, 0)//[ARRAY_SIZE]int{}
         //arrinput := [ARRAY_SIZE]int{}
  //    arrinput := [ARRAY_SIZE]int{}
 	// for i := 0; i < ARRAY_SIZE; i++ {

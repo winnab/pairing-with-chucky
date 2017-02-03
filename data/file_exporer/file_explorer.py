@@ -12,13 +12,19 @@ conn = psycopg2.connect(
 print "Opened database successfully"
 
 def insert_files(cursor, parentid, rootdir):
-	for child in os.listdir(rootdir):
-		fullpath = os.path.join(rootdir, child)
-		if os.path.isdir(fullpath): 
-			myparentid = insert_file_meta(cursor, parentid, child, fullpath)
-			insert_files(cursor, myparentid, fullpath)
-		else:
-			insert_file_meta(cursor, parentid, child, fullpath)
+	try:
+		for child in os.listdir(rootdir):
+			try:
+				fullpath = os.path.join(rootdir, child)
+				if os.path.isdir(fullpath): 
+					myparentid = insert_file_meta(cursor, parentid, child, fullpath)
+					insert_files(cursor, myparentid, fullpath)
+				else:
+					insert_file_meta(cursor, parentid, child, fullpath)	
+			except Exception as e:
+				 print 'inner loop caught this error: ' + repr(e)
+	except Exception as e:
+		 print 'outer loop caught this error: ' + repr(e) + ' in directory ' + repr(rootdir)
 
 def insert_file_meta(cursor, parentid, name, fullpath):
 	subdir_query =  "INSERT INTO files (parentid, name, fullpath) VALUES (%s, %s, %s) RETURNING id;"
@@ -39,10 +45,17 @@ cursor.execute("""
 		""")
 
 rootdir = "/Users/winna/"
+# rootdir = "/Users/winna/Google Drive/dev/drive-experiments/pairing-with-chucky/data/file_exporer"
+print "root directory is ", rootdir
 
 rootid = insert_file_meta(cursor, None, os.path.basename(rootdir), rootdir)
+print "rootid is ", rootid
+
 insert_files(cursor, rootid, rootdir)
+print 'committing files...'
+
 conn.commit()
+print 'committed'
 
 # print "name", os.path.basename(subdir)
 # print "fullpath", subdir
