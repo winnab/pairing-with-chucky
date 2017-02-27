@@ -5,6 +5,7 @@ import (
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
+	"hash_table_fast"
 )
 
 // TODO
@@ -19,10 +20,10 @@ import (
 // Values can be any type
 
 var _ = Describe("HashTable", func() {
-	var ht hash_table.HashTable
+	var ht *hash_table_fast.HashTable
 
 	BeforeEach(func() {
-		ht = hash_table.HashTable{}
+		ht = hash_table_fast.NewHashTable(10000)
 		Expect(len(ht.Keys())).To(Equal(0))
 	})
 	Describe("Look up a value by its key", func() {
@@ -34,7 +35,8 @@ var _ = Describe("HashTable", func() {
 	Describe("Insert a key/value pair", func() {
 		It("inserts a key and value for keys that do not exist", func() {
 
-			ht.Insert(123, "foobar")
+			err := ht.Insert(123, "foobar")
+			Expect(err).NotTo(HaveOccurred())
 			Expect(len(ht.Keys())).To(Equal(1))
 
 			value, err := ht.Lookup(123)
@@ -52,7 +54,7 @@ var _ = Describe("HashTable", func() {
 	})
 
 	Describe("Getting all keys", func() {
-		It("returns an empty slice if there are no keys", func(){
+		It("returns an empty slice if there are no keys", func() {
 			keys := ht.Keys()
 			Expect(keys).To(Equal([]int{}))
 		})
@@ -63,4 +65,46 @@ var _ = Describe("HashTable", func() {
 			Expect(keys).To(Equal([]int{123}))
 		})
 	})
+
+	Measure("insertNPairs", func(b Benchmarker) {
+		runtime := b.Time("runtime", func() {
+			n := 20000
+			ht := insertNPairs(n)
+			Expect(len(ht.Keys())).To(Equal(n))
+		})
+		_ = runtime
+
+		//Expect(runtime.Seconds()).Should(BeNumerically("<", 0.2), "SomethingHard() shouldn't take too long.")
+
+		//b.RecordValue("disk usage (in MB)", HowMuchDiskSpaceDidYouUse())
+	}, 10)
+
+	Measure("insertNFast", func(b Benchmarker) {
+		runtime := b.Time("runtime", func() {
+			n := 20000
+			ht := insertNFast(n)
+			Expect(len(ht.Keys())).To(Equal(n))
+		})
+		_ = runtime
+
+		//Expect(runtime.Seconds()).Should(BeNumerically("<", 0.2), "SomethingHard() shouldn't take too long.")
+
+		//b.RecordValue("disk usage (in MB)", HowMuchDiskSpaceDidYouUse())
+	}, 10)
 })
+
+func insertNPairs(n int) *hash_table.HashTable {
+	ht := new(hash_table.HashTable)
+	for i := 0; i < n; i++ {
+		ht.Insert(i, string(i))
+	}
+	return ht
+}
+
+func insertNFast(n int) *hash_table_fast.HashTable {
+	ht := hash_table_fast.NewHashTable(n + 1)
+	for i := 1; i < n+1; i++ {
+		ht.Insert(i, string(i))
+	}
+	return ht
+}

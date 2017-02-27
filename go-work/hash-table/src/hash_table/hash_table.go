@@ -2,8 +2,16 @@ package hash_table
 
 import "fmt"
 
+func NewHashTable(n int) *HashTable {
+	ht := HashTable{
+		pairs: make([]Pair, 0, n),
+	}
+
+	return &ht
+}
+
 type Pair struct {
-	key int
+	key   int
 	value string
 }
 
@@ -11,14 +19,39 @@ type HashTable struct {
 	pairs []Pair
 }
 
+//type Node struct {
+//	data int
+//	next *Node
+//}
+
+/*
+
+map (goal)
+hashmap
+
+
+slice / array / string
+linked list
+tree
+
+
+
+
+char
+int
+float
+
+
+*/
+
 func (h *HashTable) Insert(key int, value string) error {
-	_, err := h.Lookup(key)
+	_, err := h.Lookup(key) // linear
 	if err == nil {
 		return fmt.Errorf("Key already exists")
 	}
 
 	h.pairs = append(h.pairs, Pair{
-		key: key,
+		key:   key,
 		value: value,
 	})
 
@@ -41,4 +74,3 @@ func (h *HashTable) Keys() []int {
 	}
 	return keys
 }
-
